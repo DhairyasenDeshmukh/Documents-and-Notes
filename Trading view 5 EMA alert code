@@ -1,0 +1,15 @@
+//@version=5
+indicator("5 EMA Above Alert - Previous Candle", overlay=true)
+
+length = 5
+ema_5 = ta.ema(close, length)
+
+plot(ema_5, color=color.blue, linewidth=2, title="5 EMA")
+
+// Condition: Previous candle's Open, Close, High, and Low above the 5 EMA
+condition = (open[1] > ema_5[1]) and (close[1] > ema_5[1]) and (high[1] > ema_5[1]) and (low[1] > ema_5[1])
+
+alertcondition(condition, title="Previous Candle Above 5 EMA", message="Previous candle is above 5 EMA")
+
+if (condition)
+    label.new(bar_index - 1, high[1], "Above 5 EMA", color=color.rgb(76, 142, 175), textcolor=color.white, style=label.style_label_down)
